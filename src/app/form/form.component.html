@@ -1,0 +1,83 @@
+<div class="d-flex flex-column justify-content-center ">
+    <form>
+        <div class="form-groups">
+            <div class="input-group">
+                <input [(ngModel)]="goldenNumbers" name="goldenNumbers" [type]="success ? 'password' : 'text'"
+                    class="form-control fs-5 fw-bold text-success border-3"
+                    placeholder="Adicione 6 números de 1 a 60 sem repetir" maxlength="17" [disabled]="success">
+                <button (click)="onClickAddGoldenNumber(errorModal)" class="btn btn-success" style="width: 15vh;"
+                    *ngIf="!success">Enviar</button>
+                <button (click)="onClickClear()" class="btn btn-danger" style="width: 15vh;"
+                    *ngIf="success">Cancelar</button>
+            </div>
+            <small class="form-text text-muted">Digite os números separados por vírgula e sem espaço.</small>
+        </div>
+    </form>
+
+
+    <div class="d-flex flex-column mt-5" *ngIf="success">
+        <div>
+            <h3 class="text-primary" style="color: #0066b3; font-weight: 900;">Preencha sua aposta</h3>
+            <p>Escolha de 6 a 10 números dos 60 disponíveis. Ganhe com 6, 5 ou 4 acertos.
+                São realizados três sorteios semanais para você apostar e torcer para ficar milionário.
+            </p>
+        </div>
+
+        <div class="d-flex flex-row flex-wrap justify-content-center gap-3 mt-3">
+            <button
+                class="btn rounded-circle fw-bold text-white numberButton {{ selectedNumbers.includes(num) && 'bg-success' }}"
+                *ngFor="let num of buttons"
+                (click)="selectedNumbers.includes(num) ? onClickRemoveNumber(num) : onClickAddNumber(num)">{{ num
+                }}</button>
+        </div>
+
+        <div class="d-flex flex-row mt-5 betOperation gap-3" style="margin-bottom: 13vh;">
+            <div class="w-100 d-flex flex-column gap-1 justify-content-end">
+                <div class="d-flex flex-row gap-2 overflow-auto">
+                    <p class="mb-1 fs-4 fw-semibold text-muted" *ngFor="let num of selectedNumbers">{{ num }}</p>
+                </div>
+                <div class="border border-success"></div>
+            </div>
+
+            <div class="d-flex flex-row gap-2 betOperation">
+                <button class="btn btn-outline-success" style="height: 6vh;" (click)="onClickCompleteNumbers()">Complete
+                    o jogo</button>
+                <button class="btn btn-outline-success" style="height: 6vh;"
+                    (click)="onClickClearSelectedNumbers()">Limpar</button>
+                <button class="btn btn-success" style="height: 6vh;"
+                    [disabled]="selectedNumbers.length < 6 || selectedNumbers.length > 10"
+                    (click)="onClickBet(betModal)">Apostar</button>
+            </div>
+        </div>
+    </div>
+
+
+    <ng-template #errorModal let-c="close" let-d="dismiss">
+        <div class="modal-header bg-danger text-white">
+            <h4 class="modal-title" id="modal-basic-title">Erro</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+        </div>
+        <div class="modal-body text-center" style="background-color: rgba(255, 0, 0, 0.467);">
+            <mat-icon>error</mat-icon>
+            <p>Digite apenas <strong>números</strong>, <strong>entre 1 e 60</strong>, </p>
+        </div>
+    </ng-template>
+
+    <ng-template #betModal let-c="close" let-d="dismiss">
+        <div class="modal-header {{ winningNumbers.length >= 4 && 'bg-success' }}">
+            <h4 class="modal-title {{ winningNumbers.length >= 4 && 'text-white' }}" id="modal-basic-title">Resultado</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+        </div>
+
+        <div class="modal-body text-center">
+            <h1>{{ winningNumbers.length }}</h1>
+            <h3 class="text-muted">{{ winningNumbers.length < 4 ? 'Não foi dessa vez' : 'Parabéns!' }}</h3>
+
+                    <div class="d-flex flex-row justify-content-between gap-3 flex-wrap mt-5">
+                        <h3 class="{{ winningNumbers.includes(num) ? 'text-success fw-bold' : 'text-dark' }}"
+                            *ngFor="let num of selectedNumbers">{{ num }}</h3>
+                    </div>
+        </div>
+    </ng-template>
+
+</div>

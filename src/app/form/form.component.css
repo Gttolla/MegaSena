@@ -1,0 +1,30 @@
+.numberButton {
+    background-color: #adc0c4;
+    width: 8vh;
+    height: 8vh;
+}
+
+.numberButton:hover {
+    background-color: var(--bs-success);
+}
+
+@media screen and (max-width: 768px) {
+    .betOperation {
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .betOperation button {
+        width: 100%;
+    }
+
+    .numberButton:hover {
+        background-color: #adc0c4;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .betOperation button {
+        width: 25vh;
+    }
+}
